@@ -3,31 +3,60 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Noella Yang</title>
+  <title>Noella Yang | Portfolio</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <header class="site-header">
-    <div class="container">
-      <h1>Noella Yang</h1>
-      <p class="subtitle">ECE @ Duke</p>
+    <div class="container header-inner">
+      <div>
+        <h1 class="site-title">Noella Yang</h1>
+        <p class="subtitle">ECE @ Duke • Embedded • Robotics • PCB • CAD</p>
+      </div>
 
       <nav class="nav">
-        <a href="#projects">Projects</a>
         <a href="#about">About</a>
+        <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
+    <!-- ABOUT (moved to top) -->
+    <section id="about" class="section">
+      <div class="about">
+        <img class="about-photo" src="assets/me.jpg" alt="Photo of Noella Yang" />
+
+        <div>
+          <h2>Hi, I’m Noella 👋</h2>
+          <p class="lead">
+            I’m an ECE student at Duke focused on building real systems end-to-end:
+            CAD → electronics → firmware → testing.
+          </p>
+
+          <p class="muted">
+            I like projects that combine embedded + mechanical design, especially robots,
+            low-power devices, and hardware that has to work reliably in the real world.
+          </p>
+
+          <div class="about-links">
+            <a class="btn" href="#projects">View Projects</a>
+            <a class="btn btn-ghost" href="mailto:noella.yang@duke.edu">Email</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS (now right after About) -->
     <section id="projects" class="section">
       <h2>Projects</h2>
       <p class="muted">Click a project to see photos, diagrams, and details.</p>
 
       <div class="grid">
         <a class="card" href="projects/quadruped.html">
-          <img src="assets/project1-hero.jpg" alt="Quadruped robot render" />
+          <img src="assets/quadruped-render.png" alt="Quadruped robot render" />
           <div class="card-body">
             <h3>Quadruped Robot</h3>
             <p>2-DoF/leg, bus servos, URDF export, compact torso electronics.</p>
@@ -38,7 +67,7 @@
         </a>
 
         <a class="card" href="projects/saliva-sampler.html">
-          <img src="assets/project2-hero.jpg" alt="Sampling device prototype" />
+          <img src="assets/saliva-sampler-prototype.jpg" alt="Sampling device prototype" />
           <div class="card-body">
             <h3>Event-Driven Sampling Device</h3>
             <p>FSR wake, power-gated latching, actuator sequencing.</p>
@@ -48,22 +77,25 @@
           </div>
         </a>
 
+        <a class="card" href="projects/iss-sim.html">
+          <img src="assets/iss-trajectory.png" alt="ISS trajectory plot" />
+          <div class="card-body">
+            <h3>ISS Deorbit Simulation</h3>
+            <p>RK4 integrator, drag/thrust modeling, CLI simulation pipeline.</p>
+            <div class="tags">
+              <span>Python</span><span>NumPy</span><span>Simulation</span>
+            </div>
+          </div>
+        </a>
       </div>
-    </section>
-
-    <section id="about" class="section">
-      <h2>About</h2>
-      <p>
-        I’m a Duke ECE student focused on embedded systems, robotics, and hardware design.
-        I like building real systems end-to-end: CAD → electronics → firmware → testing.
-      </p>
     </section>
 
     <section id="contact" class="section">
       <h2>Contact</h2>
       <ul class="contact-list">
         <li><a href="mailto:noella.yang@duke.edu">noella.yang@duke.edu</a></li>
-        <li><a href="https://github.com/noellayang" target="_blank" rel="noreferrer">GitHub</a></li>
+        <li><a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noreferrer">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/YOUR-HANDLE" target="_blank" rel="noreferrer">LinkedIn</a></li>
       </ul>
     </section>
   </main>
