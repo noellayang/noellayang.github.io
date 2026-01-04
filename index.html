@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Noella Yang</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Noella Yang</h1>
+      <p class="subtitle">ECE @ Duke</p>
+
+      <nav class="nav">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="projects" class="section">
+      <h2>Projects</h2>
+      <p class="muted">Click a project to see photos, diagrams, and details.</p>
+
+      <div class="grid">
+        <a class="card" href="projects/quadruped.html">
+          <img src="assets/project1-hero.jpg" alt="Quadruped robot render" />
+          <div class="card-body">
+            <h3>Quadruped Robot</h3>
+            <p>2-DoF/leg, bus servos, URDF export, compact torso electronics.</p>
+            <div class="tags">
+              <span>Fusion 360</span><span>URDF</span><span>Embedded</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="card" href="projects/saliva-sampler.html">
+          <img src="assets/project2-hero.jpg" alt="Sampling device prototype" />
+          <div class="card-body">
+            <h3>Event-Driven Sampling Device</h3>
+            <p>FSR wake, power-gated latching, actuator sequencing.</p>
+            <div class="tags">
+              <span>ESP32</span><span>Arduino</span><span>Low Power</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <h2>About</h2>
+      <p>
+        I’m a Duke ECE student focused on embedded systems, robotics, and hardware design.
+        I like building real systems end-to-end: CAD → electronics → firmware → testing.
+      </p>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <ul class="contact-list">
+        <li><a href="mailto:noella.yang@duke.edu">noella.yang@duke.edu</a></li>
+        <li><a href="https://github.com/noellayang" target="_blank" rel="noreferrer">GitHub</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container muted">© <span id="year"></span> Noella Yang</div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
