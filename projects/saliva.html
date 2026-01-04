@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Event-Driven Animal Saliva Sampler</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <a href="../index.html#projects">← Back to Projects</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h1>Event-Driven Animal Saliva Sampling Device</h1>
+      <p class="muted">
+        Embedded systems • Low-power design • Electromechanical sequencing
+      </p>
+
+      <img
+        src="../assets/saliva-sampler-hero.jpg"
+        alt="Saliva sampler prototype"
+        style="width:100%; border-radius:16px; margin:18px 0; border:1px solid rgba(0,0,0,0.08);"
+      />
+
+      <!-- 1. THE PROBLEM -->
+      <h2>The Problem</h2>
+      <p>
+        Our team needed to design a saliva sampling device that could be deployed
+        in the field and operate unattended for at least one month.
+        The system needed to reliably collect discrete samples only when an
+        animal interacted with the device, without wasting power while idle.
+      </p>
+
+      <p>
+        Unlike lab-based systems, this device had to assume long periods of
+        inactivity, unpredictable user interaction, and no opportunity for
+        manual intervention once deployed.
+      </p>
+
+      <!-- 2. CONSTRAINTS -->
+      <h2>Constraints</h2>
+      <ul>
+        <li>Operate unattended for 1 month on battery power</li>
+        <li>No standby power draw during inactivity</li>
+        <li>Repeatable, discrete sampling cycles</li>
+        <li>Mechanically simple and robust for outdoor use</li>
+        <li>Store 10 saliva papers (1cm by 1cm)</li>
+        <li>Portable and compact (shoebox size)</li>
+      </ul>
+
+      <!-- 3. ITERATION 1 -->
+      <h2>In the making: An Always-On Controller</h2>
+      <p>
+        The initial design used a microcontroller running continuously and a limit swtich
+        to detect contact events. While functional, this approach resulted in constant standby current
+        draw and severely limited battery life. The limit switch was also inconsistently 
+        triggered upon attempted activation.
+      </p>
+
+      <!-- Optional image -->
+      <img
+        src="../assets/old_saliva_internal.jpeg"
+        alt="Initial internal architecture"
+        style="width:100%; border-radius:12px; margin:14px 0;"
+      />
+
+      <img
+        src="../assets/old_saliva_external.jpeg"
+        alt="Initial external metal enclosure"
+        style="width:100%; border-radius:12px; margin:14px 0;"
+      />
+
+      <p>
+        Clearly, this was also not the size of a shoebox. 
+      </p>
+
+
+      <!-- 5. FINAL SYSTEM -->
+      <h2>Final System</h2>
+      <p>
+        To eliminate standby power draw, we introduced a hardware wake circuit triggered by the
+        FSR to physically gate power to the system. The microcontroller
+        is completely unpowered until a contact event occurred. The system then
+        latches its own power, executes one sampling cycle, and shuts itself down.
+      </p>
+
+      <p>
+        I packaged all electrical and mechanical subsystems into a polished and compact 
+        210 x 180 x 140 mm metal enclosure designed for extended outdoor deployment. 
+        This housed  all individual structures into one small and robust assembly.
+      </p>
+
+      <p>
+        Upon activation, the linear actuator integrated using a sliding rail that indexes a continuous
+        sampling roll will retract. The stepper-motor that also indexes the sampling roll will rotate, allowing 
+        the next sample to be revealed before the linear actuator re-extracts. 
+      </p>
+
+      <ul>
+        <li>FSR-based hardware wake circuit (zero idle draw)</li>
+        <li>Self-latching power control</li>
+        <li>Deterministic actuator sequencing</li>
+        <li>Validated across Arduino and ESP32 platforms</li>
+      </ul>
+
+      <img
+        src="../assets/saliva_external.jpg"
+        alt="External metal enclosure"
+        style="width:100%; border-radius:12px; margin:14px 0;"
+      />
+
+      <img
+        src="../assets/saliva_internal.jpg"
+        alt="Internal metal architexture"
+        style="width:100%; border-radius:12px; margin:14px 0;"
+      />
+
+      <img
+        src="../assets/saliva_board.heic"
+        alt="Wake circuit protoboard"
+        style="width:100%; border-radius:12px; margin:14px 0;"
+      />
+
+      <p>
+        Continuing to work with the team, my next steps are to further reduce mechanical complexity
+        and add on-device logging to improve post-deployment diagnostics.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
