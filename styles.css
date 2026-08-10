@@ -84,8 +84,8 @@ a:hover {
 .hero {
   min-height: calc(100vh - 125px);
   display: grid;
-  grid-template-columns: minmax(440px, 1.15fr) minmax(380px, 1fr);
-  gap: clamp(40px, 5vw, 72px);
+  grid-template-columns: minmax(400px, 1.08fr) minmax(360px, 0.92fr);
+  gap: clamp(46px, 6vw, 92px);
   align-items: center;
   padding: 38px 0 72px;
 }
@@ -98,7 +98,7 @@ a:hover {
 .portrait {
   aspect-ratio: 4 / 4.7;
   object-fit: cover;
-  filter: grayscale(30%);
+  filter: grayscale(100%);
   transition: filter 250ms ease;
 }
 
@@ -186,17 +186,8 @@ a:hover {
 }
 
 .project-card-copy {
-  display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
-  gap: 8px;
   max-width: 980px;
   padding-top: 15px;
-}
-
-.project-number {
-  color: var(--muted);
-  font-size: 13px;
-  padding-top: 5px;
 }
 
 .project-card h2 {
@@ -321,14 +312,6 @@ a:hover {
 
   .projects-intro p {
     white-space: normal;
-  }
-
-  .project-card-copy {
-    grid-template-columns: 1fr;
-  }
-
-  .project-number {
-    padding: 0;
   }
 
   .detail-grid {
