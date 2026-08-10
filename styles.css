@@ -98,7 +98,7 @@ a:hover {
 .portrait {
   aspect-ratio: 4 / 4.7;
   object-fit: cover;
-  filter: grayscale(100%);
+  filter: grayscale(60%);
   transition: filter 250ms ease;
 }
 
