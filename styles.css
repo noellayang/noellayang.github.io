@@ -108,7 +108,12 @@ a:hover {
   width: 100%;
   aspect-ratio: 4 / 4.7;
   object-fit: cover;
-  filter: saturate(90%);
+  filter: grayscale(100%);
+  transition: filter 250ms ease;
+}
+
+.home-page .portrait-frame:hover .portrait {
+  filter: grayscale(0%);
 }
 
 .home-page .hero-copy {
