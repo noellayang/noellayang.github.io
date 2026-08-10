@@ -1,24 +1,24 @@
-PORTFOLIO STARTER
+NOELLA YANG PORTFOLIO STARTER
 
 FILES
-- index.html                 home page
-- projects.html              project index
-- project-pcb.html           example project detail page
-- project-placeholder.html   generic under-construction page
-- styles.css                 all visual styling
-- script.js                  small JavaScript enhancement
+- index.html
+- projects.html
+- project-pcb.html
+- project-placeholder.html
+- styles.css
+- script.js
 
-FIRST THINGS TO CHANGE
-1. Replace every instance of YOUR NAME.
-2. Replace YOUR-LINKEDIN and YOUR-GITHUB.
-3. Replace placeholder introduction text.
-4. Replace placehold.co image URLs with local files, for example:
-      <img src="images/me.jpg" ...>
-5. Create an /images folder for your photos, PCB renders, plots, etc.
-6. Duplicate project-pcb.html whenever you add another project.
+YOUR LINKS ARE ALREADY ADDED
+GitHub: https://github.com/noellayang
+LinkedIn: https://www.linkedin.com/in/noella-yang-414504288/
 
-SUGGESTED FOLDER STRUCTURE
+FIRST EDITS
+1. Replace the portrait placeholder with your own image.
+2. Replace the bracketed introduction text on index.html.
+3. Replace project placeholder images.
+4. Duplicate project-pcb.html for additional case studies.
 
+Suggested structure:
 portfolio/
   index.html
   projects.html
@@ -27,9 +27,8 @@ portfolio/
   styles.css
   script.js
   images/
-    me.jpg
+    noella.jpg
     pcb-hero.jpg
+    schematic.png
     pcb-layout.png
-    oscilloscope-test.png
-
-You can host this free using GitHub Pages.
+    testing-graph.png
