@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Software and systems internship at Plant-Based Cities Movement, where Noella Yang built the data pipeline behind the Lighting Up Canada map." />
+  <title>Lighting Up Canada Data Pipeline — Noella Yang</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="project-detail-page">
+  <main class="page-shell">
+    <header class="site-header">
+      <a class="site-name" href="index.html">Noella Yang</a>
+
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a href="projects.html">projects</a>
+        <a href="https://www.linkedin.com/in/noella-yang-414504288/" target="_blank" rel="noopener noreferrer">linkedin</a>
+        <a href="https://github.com/noellayang" target="_blank" rel="noopener noreferrer">github</a>
+      </nav>
+    </header>
+
+    <section class="detail-header">
+      <h1>Lighting Up Canada Data Pipeline</h1>
+      <p class="detail-status">SOFTWARE &amp; SYSTEMS INTERN, PBCM · JUNE 2026 – AUG 2026, REMOTE</p>
+      <p class="detail-links">
+        <a href="https://brianlabatte50.github.io/pbcm-map/" target="_blank" rel="noopener noreferrer">view the map</a>
+      </p>
+    </section>
+
+    <div class="detail-image-wrap">
+      <img
+        src="images/pbcm-map.jpg"
+        alt="Lighting Up Canada interactive map with pins for educational, healthcare, municipal, and government initiatives"
+        class="detail-hero-image"
+      />
+    </div>
+
+    <section class="detail-grid">
+      <div>
+        <h2>About</h2>
+        <p>
+          A summer internship at Plant-Based Cities Movement, where I owned the full data pipeline
+          behind their Lighting Up Canada map, from the research workflow to the review backend.
+        </p>
+      </div>
+
+      <div>
+        <h2>Tools</h2>
+        <p>Google Apps Script, JavaScript, Leaflet, Git, technical documentation</p>
+      </div>
+    </section>
+
+    <section class="detail-body">
+      <div class="detail-figure" style="max-width: 260px;">
+        <img src="images/pbcm-logo.jpg" alt="Plant-Based Cities Movement logo" />
+      </div>
+
+      <h2>What the project needed</h2>
+      <p>
+        PBCM wanted to map plant based and sustainability initiatives happening across Canadian cities, but the
+        actual data collection was scattered across spreadsheets, half finished research, and a lot of manual
+        copy pasting. My job was to turn that into something that could actually scale: a real pipeline, from
+        finding new initiatives to getting them verified and onto a public map, without needing someone to babysit
+        every step.
+      </p>
+
+      <h2>Building the pipeline</h2>
+      <p>
+        I designed and shipped the system end to end. On the backend, I built a review and approval workflow in
+        Google Apps Script, since that was what the rest of the organization already worked in and could maintain
+        without me. On top of that I built a reviewer facing web app where staff could search and filter incoming
+        entries, check sources, review submitted images, and export approved entries to JSON with one click instead
+        of manually formatting everything by hand.
+      </p>
+      <p>
+        The public side is a JavaScript and Leaflet map that reads from that exported data and plots every verified
+        initiative across the country. I owned the architecture and the pipeline that feeds it, though the final
+        HTML and CSS on the public map itself was built out by a teammate.
+      </p>
+
+      <h2>Scaling the research without losing the humans</h2>
+      <p>
+        The harder problem was finding new initiatives fast enough to keep up. I put together an AI assisted
+        research workflow to help surface candidates each quarter, but I was careful about where the automation
+        stopped. Every entry still needed human approval before it went anywhere near the public map, and I built
+        in duplicate detection so the same initiative could not quietly get added twice from two different
+        research passes.
+      </p>
+      <p>
+        Since I was not going to be the one running this every quarter, I wrote the technical SOP for the whole
+        workflow and walked non-technical staff through it until they could run it independently. Handing off a
+        system you built, and having it actually work without you standing over someone's shoulder, was its own
+        kind of test.
+      </p>
+
+      <h2>What I'd flag</h2>
+      <p>
+        The public map itself is intentionally simple: pins, a search bar, a filter panel. It is not the flashiest
+        thing to look at, but it is the visible tip of a pipeline that is doing more underneath, and it is still
+        actively growing as more initiatives get reviewed and approved each quarter.
+      </p>
+    </section>
+
+    <footer class="site-footer">
+      <a href="projects.html">← all projects</a>
+      <span id="year"></span>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

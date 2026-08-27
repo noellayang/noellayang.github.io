@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Autonomous Animal Saliva Sampler, a first year design project by Noella Yang and team at Duke, built to collect wildlife saliva samples without a human present." />
+  <title>Autonomous Animal Saliva Sampler — Noella Yang</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="project-detail-page">
+  <main class="page-shell">
+    <header class="site-header">
+      <a class="site-name" href="index.html">Noella Yang</a>
+
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a href="projects.html">projects</a>
+        <a href="https://www.linkedin.com/in/noella-yang-414504288/" target="_blank" rel="noopener noreferrer">linkedin</a>
+        <a href="https://github.com/noellayang" target="_blank" rel="noopener noreferrer">github</a>
+      </nav>
+    </header>
+
+    <section class="detail-header">
+      <h1>Autonomous Animal Saliva Sampler</h1>
+      <p class="detail-status">EGR 101, FIRST YEAR DESIGN · DUKE UNIVERSITY</p>
+      <p class="detail-links">
+        <a href="https://www.youtube.com/watch?v=_lK2u_ZgnLk" target="_blank" rel="noopener noreferrer">watch the demo video</a>
+      </p>
+    </section>
+
+    <div class="detail-image-wrap">
+      <img
+        src="images/sampler-group.jpg"
+        alt="Noella and her three teammates at the Pratt Fair, holding the finished device in front of their poster"
+        class="detail-hero-image"
+      />
+    </div>
+
+    <section class="detail-grid">
+      <div>
+        <h2>About</h2>
+        <p>
+          A first year design project with three teammates: build a box that can collect an animal's saliva
+          without a person anywhere nearby, and do it well enough to actually help track wildlife disease.
+        </p>
+      </div>
+
+      <div>
+        <h2>Team</h2>
+        <p>Vlatko Stojkoski, Noella Yang, Salloni Gill, Hunt Cone</p>
+      </div>
+    </section>
+
+    <section class="detail-body">
+      <h2>The premise</h2>
+      <p>
+        Our client wanted a way to monitor wildlife health across large or remote areas without needing a person
+        physically present to collect a sample. Saliva turns out to be a genuinely useful way to catch early signs
+        of disease in an animal population, but the current methods for getting it basically require someone to
+        be standing there. So the four of us set out to build a box that would do it for us.
+      </p>
+
+      <h2>How it actually works</h2>
+      <p>
+        Picture a small gray box with one grommet lined hole. An animal noses or licks at that opening, and
+        underneath it sits a force sensitive resistor that registers the contact. That trigger wakes up a
+        microcontroller, which retracts a slider lid, exposing a strip of filter paper mounted on old camera film
+        for the sample to land on. Once collected, a stepper motor rotates the film forward along a sprocket to
+        the next fresh section, and a linear actuator re-extends the slider to seal everything back up. Ten of
+        those sections meant we could store at least ten samples before anyone needed to come empty it.
+      </p>
+      <div class="detail-figure">
+        <img src="images/sampler-interior.jpg" alt="Interior mechanism of the sampler, showing the green lid, film reel, and sprocket assembly" />
+        <figcaption>
+          The internal film and sprocket mechanism, mid assembly. The film reel indexes forward one section per sample.
+        </figcaption>
+      </div>
+      <p>
+        Underneath all of that mechanical motion was a breadboard's worth of electronics doing the actual sensing
+        and control. This was the part I was most hands on with: reading the FSR, debouncing that signal into a
+        clean trigger, and sequencing the actuator and stepper motor so they never fought each other.
+      </p>
+      <div class="detail-figure">
+        <img src="images/sampler-protoboard.jpg" alt="Soldered protoboard with the FSR wake circuit and motor driver electronics" />
+        <figcaption>
+          The protoboard behind the whole system, wake circuit and motor drivers included.
+        </figcaption>
+      </div>
+
+      <h2>Testing it like we meant it</h2>
+      <p>
+        We were not going to hand this to an evaluator and just hope it worked, so we put it through a set of
+        tests that were more entertaining to run than they sound on paper. We simulated ten animal interactions
+        with a damp towel at one minute intervals to check the collect and replace cycle held up. We shook the
+        whole device for 20 seconds at a time, five times over, to make sure nothing rattled loose. We pressed a
+        wet sponge against the interaction site five separate times to check it would survive actual weather. And
+        because a client requirement was that it survive rough handling, we applied 650 pounds of force to it
+        just to see it hold.
+      </p>
+      <p>
+        It passed everything. Ten full collection cycles, no functional failure after the shake test, fully
+        functional after the wet sponge test, and it held up under the strength test with no issues. We also ran
+        a small usability survey with 20 of our EGR 101 classmates, and 15 of them found the directions easy to
+        follow and the device easy enough to put together themselves.
+      </p>
+
+      <h2>The Pratt Fair</h2>
+      <p>
+        We presented the finished project at the Pratt Fair alongside a poster that walks through the full design,
+        from the background and motivation down to every test result. If you want the more formal version of the
+        story, it's below. If you'd rather just watch the device actually take a sample, there's a demo video
+        of the whole thing in action.
+      </p>
+      <div class="detail-video-wrap">
+        <iframe src="https://www.youtube.com/embed/_lK2u_ZgnLk" title="EGR101 Pratt Fair: Animal Saliva Paper, The Wild Pratts" allowfullscreen></iframe>
+      </div>
+      <div class="detail-figure">
+        <img src="images/sampler-poster.jpg" alt="Pratt Fair poster for the Autonomous Animal Saliva Sampler, showing background, design criteria, mechanism figures, and test results" />
+        <figcaption>
+          Our Pratt Fair poster, background, design criteria, mechanism breakdown, and full test results.
+        </figcaption>
+      </div>
+
+      <h2>Looking back</h2>
+      <p>
+        If we kept going, the top of the list would be getting the whole circuit onto one compact PCB instead of a
+        breadboard tangle, cutting down the number of separate 3D printed parts so it's easier to assemble, and
+        adding a slot for scented paper to actually help attract the animals we're trying to sample from in the
+        first place. It was my first project going from a design requirement all the way to a tested, working
+        physical device with a team, and a good reminder that a lot of engineering is really just testing your
+        assumptions until you're the one left surprised.
+      </p>
+    </section>
+
+    <footer class="site-footer">
+      <a href="projects.html">← all projects</a>
+      <span id="year"></span>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
