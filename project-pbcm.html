@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Software and systems internship at Plant-Based Cities Movement, where Noella Yang built the data pipeline behind the Lighting Up Canada map." />
-  <title>Lighting Up Canada Data Pipeline — Noella Yang</title>
+  <meta name="description" content="Google Sheets and Apps Script review backend Noella Yang designed for Plant-Based Cities Movement's Lighting Up Canada map, built around AI-assisted research with mandatory human approval." />
+  <title>Lighting Up Canada Review Backend — Noella Yang</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -21,7 +21,7 @@
     </header>
 
     <section class="detail-header">
-      <h1>Lighting Up Canada Data Pipeline</h1>
+      <h1>Lighting Up Canada Review Backend</h1>
       <p class="detail-status">SOFTWARE &amp; SYSTEMS INTERN, PBCM · JUNE 2026 – AUG 2026, REMOTE</p>
       <p class="detail-links">
         <a href="https://brianlabatte50.github.io/pbcm-map/" target="_blank" rel="noopener noreferrer">view the map</a>
@@ -40,14 +40,15 @@
       <div>
         <h2>About</h2>
         <p>
-          A summer internship at Plant-Based Cities Movement, where I owned the full data pipeline
-          behind their Lighting Up Canada map, from the research workflow to the review backend.
+          A Google Sheets and Apps Script backend I designed for Plant-Based Cities Movement's public
+          initiative-tracking map, built around one constraint: AI could research at scale, but only a
+          human reviewer could ever publish a record.
         </p>
       </div>
 
       <div>
         <h2>Tools</h2>
-        <p>Google Apps Script, JavaScript, Leaflet, Git, technical documentation</p>
+        <p>Google Apps Script, Google Sheets, JavaScript, Leaflet, GitHub Pages, prompt design</p>
       </div>
     </section>
 
@@ -56,49 +57,74 @@
         <img src="images/pbcm-logo.jpg" alt="Plant-Based Cities Movement logo" />
       </div>
 
-      <h2>What the project needed</h2>
+      <h2>What this is</h2>
       <p>
-        PBCM wanted to map plant based and sustainability initiatives happening across Canadian cities, but the
-        actual data collection was scattered across spreadsheets, half finished research, and a lot of manual
-        copy pasting. My job was to turn that into something that could actually scale: a real pipeline, from
-        finding new initiatives to getting them verified and onto a public map, without needing someone to babysit
-        every step.
+        PBCM wanted a national map of plant-based food initiatives across Canadian institutions: universities,
+        hospitals, municipalities, government agencies. Finding and verifying hundreds of institutions across
+        ten provinces and territories wasn't realistic by hand, so their ask was AI-driven database expansion.
+        My job was designing and building the system that could do that without publishing something wrong.
       </p>
 
-      <h2>Building the pipeline</h2>
+      <h2>The map, first</h2>
       <p>
-        I designed and shipped the system end to end. On the backend, I built a review and approval workflow in
-        Google Apps Script, since that was what the rest of the organization already worked in and could maintain
-        without me. On top of that I built a reviewer facing web app where staff could search and filter incoming
-        entries, check sources, review submitted images, and export approved entries to JSON with one click instead
-        of manually formatting everything by hand.
-      </p>
-      <p>
-        The public side is a JavaScript and Leaflet map that reads from that exported data and plots every verified
-        initiative across the country. I owned the architecture and the pipeline that feeds it, though the final
-        HTML and CSS on the public map itself was built out by a teammate.
+        Week one was getting something real on screen: a first draft hosted on GitHub Pages, using Leaflet for
+        an interactive map instead of a static image, since it's more precise and far easier to update than
+        importing a rendered PNG. That version shipped with a search bar, a category sidebar, and 17 institutions.
+        By week two the database was at 62, and I'd reworked the whole look into the dark, glowing-pin theme the
+        map still uses, split by category: education, municipality, healthcare, government, other.
       </p>
 
-      <h2>Scaling the research without losing the humans</h2>
+      <h2>The constraint that shaped the backend</h2>
       <p>
-        The harder problem was finding new initiatives fast enough to keep up. I put together an AI assisted
-        research workflow to help surface candidates each quarter, but I was careful about where the automation
-        stopped. Every entry still needed human approval before it went anywhere near the public map, and I built
-        in duplicate detection so the same initiative could not quietly get added twice from two different
-        research passes.
+        The actual problem was scaling research without losing human control over what went public. I built the
+        system around a Google Sheet as the single source of truth, with an Apps Script web app in front of it.
+        Every candidate institution lives in one of three states:
       </p>
+      <ul>
+        <li>Review Queue — new or flagged records, everything starts here</li>
+        <li>Published Records — approved, exported to the live map</li>
+        <li>Rejected Archive — rejected, kept for history instead of deleted</li>
+      </ul>
       <p>
-        Since I was not going to be the one running this every quarter, I wrote the technical SOP for the whole
-        workflow and walked non-technical staff through it until they could run it independently. Handing off a
-        system you built, and having it actually work without you standing over someone's shoulder, was its own
-        kind of test.
+        A reviewer opens a record and picks Proceed, Hold, or Reject. Proceed is the only path that sets Approval
+        status to Approved, Ready for map to Yes, and Verified to Yes, and those three fields are the only thing
+        that lets a record into the JSON export. I wrote AI out of that decision entirely: the two research
+        prompts I built for PBCM are explicitly forbidden from ever setting those fields, no matter how confident
+        the model is in a source.
       </p>
 
-      <h2>What I'd flag</h2>
+      <h2>What the AI prompts do</h2>
       <p>
-        The public map itself is intentionally simple: pins, a search bar, a filter panel. It is not the flashiest
-        thing to look at, but it is the visible tip of a pipeline that is doing more underneath, and it is still
-        actively growing as more initiatives get reviewed and approved each quarter.
+        There are two. A discovery prompt runs quarterly and searches for Canadian institutions with documented
+        plant-based action, not vague sustainability language or a single menu item, and checks every candidate
+        against existing records first so it isn't proposing duplicates. It has to separate the date something
+        was announced from the date it was actually implemented, cite a source for every claim, and route anything
+        uncertain to a "needs clarification" state instead of guessing. An audit prompt runs on a slower cycle to
+        catch link rot, sources that changed underneath an already-published record, and claims that quietly went
+        stale, and it's written so it can never silently downgrade a well-sourced claim into a vaguer one or erase
+        an old source without keeping it in history.
+      </p>
+      <p>
+        Getting the discovery prompt right took a few rewrites. Early versions accepted a source too easily. The
+        version PBCM uses now has to build an exclusion list of every known name, alias, and subsidiary for an
+        institution before it's allowed to search, so a university with three naming conventions doesn't get
+        added three times under three different names.
+      </p>
+
+      <h2>Publishing</h2>
+      <p>
+        Once a record is approved, the admin site generates <code>institutions.json</code> directly from Published
+        Records, so nobody is hand-editing JSON. That file goes into the GitHub repo behind the public map and the
+        map picks it up automatically. The Apps Script only needs redeploying after an actual code change, not
+        after every review decision, which mattered once other staff started using it without me around.
+      </p>
+
+      <h2>Where it landed</h2>
+      <p>
+        By the end of the summer the database had grown well past the original 62 institutions, the review
+        backend was live, and I walked PBCM's technician through the full system for sign-off, then presented it
+        at their board meeting. I also wrote the internal documentation covering the whole workflow, spreadsheet
+        to review to publish, so staff without any Apps Script or JavaScript background could run it themselves.
       </p>
     </section>
 
