@@ -282,6 +282,16 @@ a:hover {
   object-fit: cover;
 }
 
+.project-detail-page .pcb-hero-wrap {
+  width: min(63%, 675px);
+}
+
+.project-detail-page .pcb-hero-wrap .detail-hero-image {
+  aspect-ratio: auto;
+  object-fit: contain;
+  display: block;
+}
+
 .project-detail-page .detail-grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
@@ -464,6 +474,10 @@ a:hover {
   .project-detail-page .detail-body,
   .project-detail-page .construction-note {
     width: 100%;
+  }
+
+  .project-detail-page .pcb-hero-wrap {
+    width: 75%;
   }
 
   .project-detail-page .detail-grid {
