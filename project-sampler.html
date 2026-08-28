@@ -40,8 +40,7 @@
       <div>
         <h2>About</h2>
         <p>
-          A first year design project with three teammates: build a box that can collect an animal's saliva
-          without a person anywhere nearby, and do it well enough to actually help track wildlife disease.
+          First-year design project for autonomous wildlife saliva collection, built with a four-person team.
         </p>
       </div>
 
@@ -52,22 +51,17 @@
     </section>
 
     <section class="detail-body">
-      <h2>The premise</h2>
+      <h2>Problem</h2>
       <p>
-        Our client wanted a way to monitor wildlife health across large or remote areas without needing a person
-        physically present to collect a sample. Saliva turns out to be a genuinely useful way to catch early signs
-        of disease in an animal population, but the current methods for getting it basically require someone to
-        be standing there. So the four of us set out to build a box that would do it for us.
+        Our client wanted a way to collect wildlife saliva samples in remote areas without a person present at each interaction.
+        We designed an automated device that could detect contact, expose a fresh sample surface, store the sample, and reset itself.
       </p>
 
-      <h2>How it actually works</h2>
+      <h2>Design</h2>
       <p>
-        Picture a small gray box with one grommet lined hole. An animal noses or licks at that opening, and
-        underneath it sits a force sensitive resistor that registers the contact. That trigger wakes up a
-        microcontroller, which retracts a slider lid, exposing a strip of filter paper mounted on old camera film
-        for the sample to land on. Once collected, a stepper motor rotates the film forward along a sprocket to
-        the next fresh section, and a linear actuator re-extends the slider to seal everything back up. Ten of
-        those sections meant we could store at least ten samples before anyone needed to come empty it.
+        A force-sensitive resistor detects contact at the opening and wakes the microcontroller. A linear actuator retracts
+        the lid to expose filter paper mounted on film, then a stepper motor advances the film to a fresh section before the
+        lid closes again. The mechanism stores at least ten samples before servicing.
       </p>
       <div class="detail-figure">
         <img src="images/sampler-interior.jpg" alt="Interior mechanism of the sampler, showing the green lid, film reel, and sprocket assembly" />
@@ -76,9 +70,8 @@
         </figcaption>
       </div>
       <p>
-        Underneath all of that mechanical motion was a breadboard's worth of electronics doing the actual sensing
-        and control. This was the part I was most hands on with: reading the FSR, debouncing that signal into a
-        clean trigger, and sequencing the actuator and stepper motor so they never fought each other.
+        I focused mainly on the sensing and control electronics: reading and debouncing the FSR trigger, then sequencing
+        the linear actuator and stepper motor through each collection cycle.
       </p>
       <div class="detail-figure">
         <img src="images/sampler-protoboard.jpg" alt="Soldered protoboard with the FSR wake circuit and motor driver electronics" />
@@ -87,29 +80,17 @@
         </figcaption>
       </div>
 
-      <h2>Testing it like we meant it</h2>
+      <h2>Testing</h2>
       <p>
-        We were not going to hand this to an evaluator and just hope it worked, so we put it through a set of
-        tests that were more entertaining to run than they sound on paper. We simulated ten animal interactions
-        with a damp towel at one minute intervals to check the collect and replace cycle held up. We shook the
-        whole device for 20 seconds at a time, five times over, to make sure nothing rattled loose. We pressed a
-        wet sponge against the interaction site five separate times to check it would survive actual weather. And
-        because a client requirement was that it survive rough handling, we applied 650 pounds of force to it
-        just to see it hold.
-      </p>
-      <p>
-        It passed everything. Ten full collection cycles, no functional failure after the shake test, fully
-        functional after the wet sponge test, and it held up under the strength test with no issues. We also ran
-        a small usability survey with 20 of our EGR 101 classmates, and 15 of them found the directions easy to
-        follow and the device easy enough to put together themselves.
+        We tested ten full collection cycles, repeated shake and water-exposure tests, and a 650 lb strength load.
+        The device remained functional through each test. In a 20-person usability survey, 15 participants found the
+        assembly instructions easy to follow.
       </p>
 
-      <h2>The Pratt Fair</h2>
+      <h2>Demo and presentation</h2>
       <p>
-        We presented the finished project at the Pratt Fair alongside a poster that walks through the full design,
-        from the background and motivation down to every test result. If you want the more formal version of the
-        story, it's below. If you'd rather just watch the device actually take a sample, there's a demo video
-        of the whole thing in action.
+        We presented the final device at the Pratt Fair with a poster covering the design, mechanism, and test results.
+        The demo video below shows one complete collection cycle.
       </p>
       <div class="detail-video-wrap">
         <iframe src="https://www.youtube.com/embed/_lK2u_ZgnLk" title="EGR101 Pratt Fair: Animal Saliva Paper, The Wild Pratts" allowfullscreen></iframe>
@@ -121,12 +102,10 @@
         </figcaption>
       </div>
 
-      <h2>Looking back</h2>
+      <h2>Next iteration</h2>
       <p>
-        If we kept going, the top of the list would be getting the whole circuit onto one compact PCB instead of a
-        breadboard tangle, cutting down the number of separate 3D printed parts so it's easier to assemble, and
-        adding a slot for scented paper to actually help attract the animals we're trying to sample from in the
-        first place.
+        The next revision would move the electronics onto a compact PCB, reduce the number of printed parts, and add
+        a simple attractant holder near the sampling opening.
       </p>
     </section>
 

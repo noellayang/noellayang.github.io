@@ -40,9 +40,8 @@
       <div>
         <h2>About</h2>
         <p>
-          A Google Sheets and Apps Script backend I designed for Plant-Based Cities Movement's public
-          initiative-tracking map, built around one constraint: AI could research at scale, but only a
-          human reviewer could ever publish a record.
+          Google Sheets and Apps Script review backend for PBCM's public initiative-tracking map, with AI-assisted
+          research and mandatory human approval before publication.
         </p>
       </div>
 
@@ -57,28 +56,21 @@
         <img src="images/pbcm-logo.jpg" alt="Plant-Based Cities Movement logo" />
       </div>
 
-      <h2>What this is</h2>
+      <h2>Project</h2>
       <p>
-        PBCM wanted a national map of plant-based food initiatives across Canadian institutions: universities,
-        hospitals, municipalities, government agencies. Finding and verifying hundreds of institutions across
-        ten provinces and territories wasn't realistic by hand, so their ask was AI-driven database expansion.
-        My job was designing and building the system that could do that without publishing something wrong.
+        PBCM wanted a national map of documented plant-based initiatives across Canadian institutions. I built the
+        research, review, and publishing workflow behind it so the database could grow without removing human verification.
       </p>
 
-      <h2>The map, first</h2>
+      <h2>Public map</h2>
       <p>
-        Week one was getting something real on screen: a first draft hosted on GitHub Pages, using Leaflet for
-        an interactive map instead of a static image, since it's more precise and far easier to update than
-        importing a rendered PNG. That version shipped with a search bar, a category sidebar, and 17 institutions.
-        By week two the database was at 62, and I'd reworked the whole look into the dark, glowing-pin theme the
-        map still uses, split by category: education, municipality, healthcare, government, other.
+        I first built the public map in Leaflet and hosted it on GitHub Pages. The early version included search,
+        category filtering, and 17 institutions; the dataset reached 62 by the second week as the review workflow took shape.
       </p>
 
-      <h2>The constraint that shaped the backend</h2>
+      <h2>Review workflow</h2>
       <p>
-        The actual problem was scaling research without losing human control over what went public. I built the
-        system around a Google Sheet as the single source of truth, with an Apps Script web app in front of it.
-        Every candidate institution lives in one of three states:
+        The Google Sheet is the source of truth, with an Apps Script web app for review. Each record is kept in one of three states:
       </p>
       <ul>
         <li>Review Queue: new or flagged records, everything starts here</li>
@@ -86,45 +78,28 @@
         <li>Rejected Archive: rejected, kept for history instead of deleted</li>
       </ul>
       <p>
-        A reviewer opens a record and picks Proceed, Hold, or Reject. Proceed is the only path that sets Approval
-        status to Approved, Ready for map to Yes, and Verified to Yes, and those three fields are the only thing
-        that lets a record into the JSON export. I wrote AI out of that decision entirely: the two research
-        prompts I built for PBCM are explicitly forbidden from ever setting those fields, no matter how confident
-        the model is in a source.
+        Reviewers can Proceed, Hold, or Reject a record. Only Proceed sets the approval fields required for export.
+        The research prompts cannot set those fields, so AI can suggest records and sources but cannot publish them.
       </p>
 
-      <h2>What the AI prompts do</h2>
+      <h2>Research workflow</h2>
       <p>
-        There are two. A discovery prompt runs quarterly and searches for Canadian institutions with documented
-        plant-based action, not vague sustainability language or a single menu item, and checks every candidate
-        against existing records first so it isn't proposing duplicates. It has to separate the date something
-        was announced from the date it was actually implemented, cite a source for every claim, and route anything
-        uncertain to a "needs clarification" state instead of guessing. An audit prompt runs on a slower cycle to
-        catch link rot, sources that changed underneath an already-published record, and claims that quietly went
-        stale, and it's written so it can never silently downgrade a well-sourced claim into a vaguer one or erase
-        an old source without keeping it in history.
-      </p>
-      <p>
-        Getting the discovery prompt right took a few rewrites. Early versions accepted a source too easily. The
-        version PBCM uses now has to build an exclusion list of every known name, alias, and subsidiary for an
-        institution before it's allowed to search, so a university with three naming conventions doesn't get
-        added three times under three different names.
+        I wrote separate prompts for discovery and later verification. Discovery checks new candidates against existing
+        names and aliases, requires a source for each claim, separates announcement dates from implementation dates, and
+        routes uncertain cases for review instead of guessing. The audit workflow checks published records for stale claims,
+        changed sources, and broken links while preserving source history.
       </p>
 
       <h2>Publishing</h2>
       <p>
-        Once a record is approved, the admin site generates <code>institutions.json</code> directly from Published
-        Records, so nobody is hand-editing JSON. That file goes into the GitHub repo behind the public map and the
-        map picks it up automatically. The Apps Script only needs redeploying after an actual code change, not
-        after every review decision, which mattered once other staff started using it without me around.
+        Approved records are exported directly to <code>institutions.json</code> for the public map, so staff do not have
+        to edit JSON by hand or redeploy the Apps Script after each review decision.
       </p>
 
-      <h2>Where it landed</h2>
+      <h2>Handoff</h2>
       <p>
-        By the end of the summer the database had grown well past the original 62 institutions, the review
-        backend was live, and I walked PBCM's technician through the full system for sign-off, then presented it
-        at their board meeting. I also wrote the internal documentation covering the whole workflow, spreadsheet
-        to review to publish, so staff without any Apps Script or JavaScript background could run it themselves.
+        By the end of the internship, the review backend was live and the database had grown beyond the initial 62 records.
+        I documented the full workflow, trained PBCM staff to operate it independently, and presented the system at a board meeting.
       </p>
     </section>
 

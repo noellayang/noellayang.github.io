@@ -40,8 +40,7 @@
       <div>
         <h2>About</h2>
         <p>
-          A custom ESP32-C3 board I designed and brought up myself, built as a physical testbed
-          for the power budget work I was doing on Duke's ChipSat subsystem for the Solar Sail project.
+          ESP32-C3 power-management testbed built from my ChipSat power-budget work for Duke Solar Sail.
         </p>
       </div>
 
@@ -52,39 +51,29 @@
     </section>
 
     <section class="detail-body">
-      <h2>Where this came from</h2>
+      <h2>Why I built it</h2>
       <p>
-        While I was leading sensor subsystem work for Duke's ChipSat program, I ended up writing the power budget:
-        eclipse survival, duty cycling, how long a 5g LiPo battery could actually last between recharges. All of that
-        lived in spreadsheets and simulations. What I wanted to know was whether the firmware decisions I was
-        modeling on paper actually behaved the way I expected on real hardware. So I designed my own board to find out.
-      </p>
-      <p>
-        I was not trying to reproduce flight hardware. I wanted something small and testable, where I could keep
-        the physical hardware fixed and only change firmware, then measure exactly what happened to current draw.
+        While working on the ChipSat sensor subsystem, I was modeling eclipse survival, duty cycles, and battery recharge.
+        I wanted a hardware check on those assumptions, so I built a board where I could keep the circuit fixed, change
+        firmware states, and measure current directly.
       </p>
 
       <h2>What's on the board</h2>
       <p>
-        It is a 45mm by 45mm, two layer board built around an ESP32-C3-MINI-1 with native USB. Everything on it
-        was chosen to mirror a real power system: solar input and Li-ion charging through a BQ25185, two INA219
-        monitors so I could watch current on both the solar input and the main system rail at the same time, a
-        VEML7700 for ambient light, and an ICM-42688-P IMU over SPI standing in for attitude sensing. There is also
-        a switchable +3V3_SENS rail for the sensor domain, and a 36 ohm load behind a solder jumper that draws
-        about 300mW when bridged, roughly the scale of a single magnetorquer firing.
+        The 45mm by 45mm, two-layer board uses an ESP32-C3-MINI-1 with native USB, BQ25185 solar/Li-ion charging,
+        dual INA219 current monitors, a VEML7700 light sensor, and an ICM-42688-P IMU. A switchable +3V3_SENS rail
+        lets firmware shut down the sensor domain, and a 36 ohm jumper-selected load provides an approximately 300mW
+        transient for ADCS-scale testing.
       </p>
       <p>
-        For telemetry, I used the ESP32-C3's own BLE radio as a stand-in for LoRa downlink, keeping the same
-        780ms transmission window and cadence from the mission power model. It does not reproduce actual LoRa RF
-        behavior, but it gave the firmware a real wireless workload to schedule around instead of a simulated one.
+        I used the ESP32-C3 BLE radio as a telemetry proxy, with the same 780ms window and cadence used in the mission
+        model. The goal was not to copy LoRa RF behavior, only to schedule around a real wireless event.
       </p>
 
-      <h2>Three firmware states, one board</h2>
+      <h2>Firmware states</h2>
       <p>
-        I modeled three operating states that mirror how a small spacecraft would actually schedule power: eclipse
-        sleep, where the MCU sleeps between events and only wakes to advertise telemetry; housekeeping, active but
-        with the sensor rail and IMU off; and full sensing, with everything on. Each one maps to a real mission
-        decision about what needs to stay powered and what can wait.
+        I tested three states: eclipse sleep, housekeeping with the sensor rail off, and full sensing. Keeping the
+        hardware unchanged made it easy to isolate the effect of firmware scheduling.
       </p>
       <div class="detail-figure">
         <img src="images/pcb-power-states.png" alt="Bar chart comparing measured system current across eclipse, housekeeping, and full sensing states, plus a switched load test" />
@@ -93,18 +82,14 @@
         </figcaption>
       </div>
       <p>
-        Deep sleep cut average current by 95.4%, from 48.59mA in housekeeping down to about 2.25mA in eclipse.
-        Full sensing came in close to housekeeping at 50.14mA, since the IMU and sensor rail add relatively little
-        on top of an already active MCU. The switched load test told a different story: flipping on the 300mW load
-        pushed current from a 26.02mA baseline up to 118.48mA, close to what I calculated from the resistor value
-        beforehand. It was a good sanity check that the electrical math and the measured hardware actually agreed.
+        Deep sleep reduced average current from 48.59mA to 2.25mA, a 95.4% drop. Full sensing measured 50.14mA.
+        Enabling the 300mW switched load raised current from 26.02mA to 118.48mA, close to the resistive-load estimate.
       </p>
 
-      <h2>What telemetry actually costs</h2>
+      <h2>BLE telemetry</h2>
       <p>
-        Once I had the steady state numbers, I wanted to see what a telemetry event looked like in time rather
-        than as an average. I held the board in full sensing for 60 seconds and enabled BLE advertising for 780ms
-        at the 5 and 35 second marks, matching the 30 second interval from the mission schedule.
+        To capture the cost of a radio event, I held the board in full sensing for 60 seconds and advertised for 780ms
+        at 30-second intervals.
       </p>
       <div class="detail-figure">
         <img src="images/pcb-ble-telemetry.png" alt="Line chart of system current over 60 seconds, showing two brief spikes during BLE telemetry windows" />
@@ -114,17 +99,13 @@
         </figcaption>
       </div>
       <p>
-        The baseline was remarkably repeatable across all three trials, sitting at 53.67mA every time. The radio
-        windows showed up as short, clean spikes rather than dragging the whole cycle up, which is exactly what
-        the duty cycled schedule was supposed to achieve. At this cadence the radio is only active for about
-        2.6% of the cycle.
+        Across three trials, baseline current stayed at 53.67mA and brief BLE windows peaked at 121.5mA. At this cadence,
+        radio activity occupies about 2.6% of the cycle.
       </p>
 
-      <h2>Measuring the sun</h2>
+      <h2>Solar input</h2>
       <p>
-        Cutting consumption only solves half the problem, so I also wanted to see if I could tie environmental
-        light to actual electrical power coming back into the board. The solar side INA219 measured panel voltage
-        and current while the VEML7700 recorded illuminance, across a few different lighting conditions.
+        I paired the solar-side INA219 with the VEML7700 to compare harvested electrical power with measured illuminance.
       </p>
       <div class="detail-figure">
         <img src="images/pcb-solar-harvesting.png" alt="Scatter plot of harvested solar power in milliwatts versus measured illuminance in lux, with an upward trend" />
@@ -133,43 +114,35 @@
         </figcaption>
       </div>
       <p>
-        Above a certain brightness the relationship was clean. The lowest light point sat close to the INA219 and
-        0.1 ohm shunt's measurement floor, which is why it reads slightly negative with a wide error bar. Rather
-        than throw that point out, I kept it and just noted where the measurement stopped being trustworthy.
+        Harvested power increased with illumination. The lowest-light point sits near the INA219 and 0.1 ohm shunt
+        measurement floor, so I kept it in the plot but treated it as low-confidence data.
       </p>
 
-      <h2>Bring up, the unglamorous part</h2>
+      <h2>Bring-up notes</h2>
       <p>
-        Un-surprisingly, none of this worked on the first try. I brought the board up in pieces, power rails first, then native
-        USB, both INA219 monitors, the VEML7700, SPI to the IMU, and only then the switched rail and solar path.
-        A few issues along the way changed how I thought about the design:
+        I brought the board up subsystem by subsystem: power rails, native USB, current monitors, light sensing, IMU,
+        switched sensor rail, then the solar path. A few issues were worth documenting:
       </p>
       <ul>
         <li>
-          The ESP32-C3 only has one I2C controller, but the board has two physical I2C buses, so firmware has to
-          remap the controller between them. I learned this the hard way when I disabled the sensor rail before
-          an I2C transaction had fully finished, which left the bus in a bad state. The fix was to always complete
-          the transaction and release SDA and SCL before cutting power to that rail.
+          The ESP32-C3 uses one I2C controller across two physical buses. Cutting the sensor rail during a transaction
+          could leave the bus stuck, so firmware now completes the transaction and releases SDA/SCL before power-down.
         </li>
         <li>
-          At low light, the solar current dropped close enough to the INA219's resolution that the sign would
-          drift around zero. Instead of filtering that out, I marked it as being near the measurement floor and
-          left it in the dataset.
+          At low light, solar current approached the INA219 measurement floor and occasionally drifted around zero.
+          I left those points in the dataset and marked the limitation.
         </li>
         <li>
-          Just initializing the BLE stack raised the active current noticeably, even with advertising turned off.
-          That is why the firmware treats "advertising off" and "BLE fully deinitialized" as two separate states
-          instead of assuming they behave the same.
+          Initializing BLE raised active current even with advertising disabled, so the firmware distinguishes
+          "advertising off" from "BLE fully deinitialized."
         </li>
       </ul>
 
-      <h2>Where it landed</h2>
+      <h2>Result</h2>
       <p>
-        By the end, the board could sit at a very low duty cycled average when energy was scarce and still support
-        a brief high power event when the mission actually called for one, which was the whole question I started
-        with. The hardware, manufacturing files, and bill of materials are all in the
-        <a href="https://github.com/noellayang/chipsat-v1" target="_blank" rel="noopener noreferrer">GitHub repo</a>,
-        along with the full writeup of every test.
+        The final testbed can compare low-duty-cycle operation, full sensing, telemetry bursts, and short high-current
+        events on the same hardware. The schematic, manufacturing files, BOM, firmware, and test notes are in the
+        <a href="https://github.com/noellayang/chipsat-v1" target="_blank" rel="noopener noreferrer">GitHub repo</a>.
       </p>
     </section>
 
