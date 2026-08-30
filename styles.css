@@ -1,3 +1,6 @@
+/* -----------------------------------
+   BASE — shared by every page
+----------------------------------- */
 
 :root {
   --text: #111;
@@ -92,7 +95,7 @@ a:hover {
 .home-page .hero {
   min-height: calc(100vh - 120px);
   display: grid;
-  grid-template-columns: minmax(500px, 1.35fr) minmax(340px, 0.9fr);
+  grid-template-columns: minmax(560px, 1.45fr) minmax(320px, 0.85fr);
   gap: clamp(40px, 5vw, 72px);
   align-items: center;
   padding: 38px 0 68px;
@@ -106,8 +109,9 @@ a:hover {
 
 .home-page .portrait {
   width: 100%;
-  aspect-ratio: 4 / 4.7;
+  aspect-ratio: 1882 / 1250;
   object-fit: cover;
+  filter: grayscale(30%);
   transition: filter 250ms ease;
 }
 
@@ -133,7 +137,7 @@ a:hover {
 
 .home-page .hero h1 {
   margin: 0;
-  font-size: clamp(44px, 5.2vw, 68px);
+  font-size: clamp(40px, 4.7vw, 60px);
   line-height: 1;
   letter-spacing: -0.035em;
 }
@@ -141,7 +145,7 @@ a:hover {
 .home-page .intro {
   max-width: 740px;
   margin: 22px 0 0;
-  font-size: clamp(19px, 1.7vw, 22px);
+  font-size: clamp(18px, 1.5vw, 20px);
   line-height: 1.5;
 }
 
@@ -197,11 +201,26 @@ a:hover {
   background: var(--soft);
 }
 
+/* Keep the PCB fully visible while preserving the existing project-card frame. */
+.projects-page .project-card:first-child .project-image-wrap {
+  aspect-ratio: 16 / 9.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .projects-page .project-image {
   width: 100%;
   aspect-ratio: 16 / 9.2;
   object-fit: cover;
   transition: transform 220ms ease, filter 220ms ease;
+}
+
+.projects-page .project-card:first-child .project-image {
+  width: 75%;
+  height: 75%;
+  aspect-ratio: auto;
+  object-fit: contain;
 }
 
 .projects-page .project-card:hover .project-image {
@@ -276,16 +295,6 @@ a:hover {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-}
-
-.project-detail-page .pcb-hero-wrap {
-  width: min(63%, 675px);
-}
-
-.project-detail-page .pcb-hero-wrap .detail-hero-image {
-  aspect-ratio: auto;
-  object-fit: contain;
-  display: block;
 }
 
 .project-detail-page .detail-grid {
@@ -470,10 +479,6 @@ a:hover {
   .project-detail-page .detail-body,
   .project-detail-page .construction-note {
     width: 100%;
-  }
-
-  .project-detail-page .pcb-hero-wrap {
-    width: 75%;
   }
 
   .project-detail-page .detail-grid {
